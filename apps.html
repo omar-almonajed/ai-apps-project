@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>تطبيقات الذكاء الاصطناعي</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Flexbox للوسائط */
+    .media-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .media-item {
+      flex: 1;
+      max-width: 48%;
+    }
+    .media-item img, .media-item video, .media-item iframe {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      display: block;
+    }
+    .btn-primary {
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background-color: #0056b3; }
+    .details-row td { padding: 10px; background: #f1f1f1; }
+  </style>
+</head>
+<body dir="rtl" class="page-body">
+  <header class="site-header">
+    <h1>تطبيقات الذكاء الاصطناعي</h1>
+    <nav class="main-nav">
+      <a href="home.html">الرئيسية</a>
+      <a href="aboutus.html">من نحن</a>
+      <a href="apps.html">التطبيقات</a>
+      <a href="add_app.html">إضافة تطبيق</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>جدول التطبيقات</h2>
+      <table class="data-table" id="apps-table">
+        <thead>
+          <tr>
+            <th>اسم التطبيق</th>
+            <th>الشركة المطورة</th>
+            <th>المجال</th>
+            <th>مجاني؟</th>
+            <th>إظهار التفاصيل</th>
+          </tr>
+        </thead>
+        <tbody id="apps-body"></tbody>
+      </table>
+      <p id="no-apps" style="display:none;">لا توجد تطبيقات حالياً.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Prepared for: IWB201 - Web Application Development and Design-F24 · Date: 10-25-2025</p>
+  </footer>
+
+<script>
+$(function(){
+  // عينات التطبيقات
+  var SAMPLE_APPS = [
+    {name:'VisionAI', company:'OpenVision', domain:'Healthcare', free:'لا', desc:'نظام تحليل صور طبية معزز بالذكاء الصناعي.', website:'https://www.visionai.co/', image:'image/VisionAI.jpg', video:'https://www.youtube.com/shorts/E8FniQu3Jqo'},
+    {name:'ChatPro', company:'TalkLab', domain:'Chatbots', free:'نعم', desc:'مساعد محادثة متعدد اللغات.', website:'https://www.chatpro.ai/', image:'image/ChatPro.jpg', video:'https://youtu.be/5Uq2tJ3oXk8'},
+    {name:'ShopSmart', company:'EcomSoft', domain:'E-Commerce', free:'لا', desc:'توصيات منتجات ذكية.', website:'https://www.shopsmart.com/', image:'image/ShopSmart.jpg', video:'https://youtu.be/wvUbZ0KgEbE'},
+    {name:'LearnMate', company:'EduWorks', domain:'Education', free:'نعم', desc:'منصة تعليمية تكيّفية.', website:'https://www.learnmate.com/', image:'image/LearnMate.jpg', video:'https://youtu.be/4RMVGAjGMzE'},
+    {name:'RoboNav', company:'RoboCorp', domain:'Robotics', free:'لا', desc:'نظام ملاحة لروبوتات الخدمة المنزلية.', website:'https://www.robonav.com/', image:'image/RoboNav.jpg', video:'https://youtu.be/nAqq7elweCs'}
+  ];
+
+  // تحويل رابط يوتيوب إلى iframe
+  function convertYouTube(url){
+    let videoId='';
+    if(url.includes('youtu.be')) videoId = url.split('/').pop().split('?')[0];
+    else if(url.includes('youtube.com')) {
+      const params = new URL(url).searchParams;
+      videoId = params.get('v') || url.split('/').pop();
+    }
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  function renderAppsTable(){
+    var apps = SAMPLE_APPS; // هنا يمكنك تعديل لتأخذ من localStorage
+    var $body = $('#apps-body');
+    $body.empty();
+    if(apps.length === 0){
+      $('#apps-table').hide();
+      $('#no-apps').show();
+      return;
+    }
+    $('#apps-table').show();
+    $('#no-apps').hide();
+
+    apps.forEach(function(a, idx){
+      var tr = $('<tr></tr>');
+      tr.append('<td>'+a.name+'</td>');
+      tr.append('<td>'+a.company+'</td>');
+      tr.append('<td>'+a.domain+'</td>');
+      tr.append('<td>'+a.free+'</td>');
+      var btn = $('<button class="btn-primary" data-idx="'+idx+'">تفاصيل</button>');
+      tr.append($('<td></td>').append(btn));
+      $body.append(tr);
+
+      // الوسائط
+      var mediaHtml = '<div class="media-container">';
+      if(a.image) mediaHtml += '<div class="media-item"><img src="'+a.image+'" alt="صورة التطبيق"></div>';
+      if(a.video){
+        if(a.video.includes('youtube.com') || a.video.includes('youtu.be')){
+          mediaHtml += '<div class="media-item"><iframe src="'+convertYouTube(a.video)+'" frameborder="0" allowfullscreen></iframe></div>';
+        } else {
+          mediaHtml += '<div class="media-item"><video controls><source src="'+a.video+'" type="video/mp4">متصفحك لا يدعم الفيديو.</video></div>';
+        }
+      }
+      mediaHtml += '</div>';
+
+      var detRow = $('<tr class="details-row" style="display:none;"><td colspan="5">'+
+        '<strong>شرح:</strong> '+a.desc+
+        '<br><strong>الرابط:</strong> <a href="'+a.website+'" target="_blank">'+a.website+'</a>'+
+        mediaHtml+
+        '</td></tr>');
+      $body.append(detRow);
+    });
+
+    $('#apps-body').off('click','.btn-primary').on('click','.btn-primary', function(){
+      var idx = $(this).data('idx');
+      $('tr.details-row').eq(idx).toggle();
+    });
+  }
+
+  renderAppsTable();
+});
+</script>
+</body>
+</html>

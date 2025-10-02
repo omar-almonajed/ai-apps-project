@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Add App - AI Apps Directory</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="myFunctions.js"></script>
+</head>
+<body dir="rtl" class="page-body">
+  <header class="site-header">
+    <h1>إدخال معلومات تطبيق جديد</h1>
+    <nav class="main-nav">
+      <a href="home.html">الرئيسية</a>
+      <a href="aboutus.html">من نحن</a>
+      <a href="apps.html">التطبيقات</a>
+      <a href="add_app.html">إضافة تطبيق</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <form id="addAppForm" novalidate>
+        <div class="form-row">
+          <label for="appName">اسم التطبيق (English, بدون فراغات)</label>
+          <input type="text" id="appName" name="appName" placeholder="ExampleApp" required>
+          <small class="error" id="errAppName"></small>
+        </div>
+
+        <div class="form-row">
+          <label for="companyName">اسم الشركة (English)</label>
+          <input type="text" id="companyName" name="companyName" placeholder="CompanyName" required>
+          <small class="error" id="errCompany"></small>
+        </div>
+
+        <div class="form-row">
+          <label for="website">الموقع الإلكتروني (URL)</label>
+          <input type="url" id="website" name="website" placeholder="https://example.com" required>
+          <small class="error" id="errWebsite"></small>
+        </div>
+
+        <div class="form-row">
+          <label for="image">رابط صورة التطبيق (URL)</label>
+          <input type="url" id="image" name="image" placeholder="https://example.com/image.jpg">
+          <small class="error" id="errImage"></small>
+        </div>
+
+        <div class="form-row">
+          <label for="isFree">هل التطبيق مجاني؟</label>
+          <select id="isFree" name="isFree">
+            <option value="yes">نعم</option>
+            <option value="no">لا</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="domain">مجال الاستخدام</label>
+          <select id="domain" name="domain" required>
+            <option value="">-- اختر المجال --</option>
+            <option>E-Commerce</option>
+            <option>Education</option>
+            <option>Robotics</option>
+            <option>Healthcare</option>
+            <option>Chatbots</option>
+          </select>
+          <small class="error" id="errDomain"></small>
+        </div>
+
+        <div class="form-row">
+          <label for="description">شرح مختصر عن التطبيق</label>
+          <textarea id="description" name="description" rows="4" placeholder="اكتب شرحًا مختصرًا" required></textarea>
+          <small class="error" id="errDesc"></small>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="resetBtn" class="btn-secondary">إعادة</button>
+          <button type="submit" id="submitBtn" class="btn-primary">إرسال</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Prepared for: IWB201 - Web Application Development and Design-F24 · Date: 10-25-2025</p>
+  </footer>
+</body>
+</html>
