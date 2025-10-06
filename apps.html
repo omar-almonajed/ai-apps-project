@@ -47,10 +47,12 @@
     </nav>
   </header>
 
-  <main class="container">
-    <section class="card">
-      <h2>جدول التطبيقات</h2>
-      <table class="data-table" id="apps-table">
+ <main class="container">
+  <section class="card">
+    <h2>جدول التطبيقات</h2>
+
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="apps-table" style="width:100%; min-width:600px;">
         <thead>
           <tr>
             <th>اسم التطبيق</th>
@@ -62,9 +64,11 @@
         </thead>
         <tbody id="apps-body"></tbody>
       </table>
-      <p id="no-apps" style="display:none;">لا توجد تطبيقات حالياً.</p>
-    </section>
-  </main>
+    </div>
+
+    <p id="no-apps" style="display:none;">لا توجد تطبيقات حالياً.</p>
+  </section>
+</main>
 
   <footer class="site-footer">
     <p>Prepared for: IWB201 - Web Application Development and Design-F24 · Date: 10-25-2025</p>
